@@ -9,46 +9,30 @@ goog.provide('Blockly.Python.motor');
 
 goog.require('Blockly.Python');
 
-Blockly.Python['gpio_devices_out'] = function(block) {
-  var code = Blockly.Python.variableDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-  return [code, Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python['gpio_output'] = function (block) {
-  Blockly.Python.definitions_['from_gpiozero_import_*'] = 'from gpiozero import *';
-  var pin_num = Blockly.Python.valueToCode(block, 'PIN', Blockly.Python.ORDER_NONE);
-  var value_device = Blockly.Python.valueToCode(block, 'device', Blockly.Python.ORDER_NONE);
-  var code = value_device + ' = DigitalOutputDevice(' + pin_num + ')\n';
+Blockly.JavaScript['stepper_motor'] = function(block) {
+  Blockly.Python.definitions_['from_pimotor_import_*'] = 'from pimotor import *';
+  var var_name = Blockly.Python.variableDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+  var pin_en = Blockly.Python.valueToCode(block, 'PIN_EN', Blockly.Python.ORDER_ATOMIC);
+  var pin_dir = Blockly.Python.valueToCode(block, 'PIN_DIR', Blockly.Python.ORDER_ATOMIC);
+  var pin_stp = Blockly.Python.valueToCode(block, 'PIN_STP', Blockly.Python.ORDER_ATOMIC);
+  var code = var_name + ' = StepperMotor(' + pin_en + ', ' + pin_dir + ', ' + pin_stp + ')\n';
   return code;
 };
 
-Blockly.Python['gpio_output_on'] = function (block) {
-  var value_device = Blockly.Python.valueToCode(block, 'device', Blockly.Python.ORDER_NONE);
-  var code = value_device + '.on()\n';
+Blockly.Python['forward_motor'] = function(block) {
+  var motor = Blockly.Python.variableDB_.getName(block.getFieldValue('MOTOR'), Blockly.Variables.NAME_TYPE);
+  var duration = Blockly.Python.valueToCode(block, 'DURATION', Blockly.Python.ORDER_ATOMIC);
+  var freq = Blockly.Python.valueToCode(block, 'FREQ', Blockly.Python.ORDER_ATOMIC);
+  var dc = Blockly.Python.valueToCode(block, 'DC', Blockly.Python.ORDER_ATOMIC);
+  var code = motor + '.forward(' + duration + ', ' + freq + ', ' + dc + ')\n';
   return code;
 };
 
-Blockly.Python['gpio_output_off'] = function (block) {
-  var value_device = Blockly.Python.valueToCode(block, 'device', Blockly.Python.ORDER_NONE);
-  var code = value_device + '.off()\n';
-  return code;
-};
-
-Blockly.Python['gpio_close_out'] = function (block) {
-  var value_device = Blockly.Python.valueToCode(block, 'device', Blockly.Python.ORDER_NONE);
-  var code = value_device + '.close()\n';
-  return code;
-};
-
-Blockly.Python['gpio_output_value'] = function (block) {
-  var value_device = Blockly.Python.valueToCode(block, 'device', Blockly.Python.ORDER_NONE);
-  var code = value_device + '.value';
-  return [code, Blockly.Python.ORDER_MEMBER];
-};
-
-Blockly.Python['gpio_output_value_set'] = function (block) {
-  var value_device = Blockly.Python.valueToCode(block, 'device', Blockly.Python.ORDER_NONE);
-  var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_NONE);
-  var code = value_device + '.value = ' + value_value + '\n';
+Blockly.Python['backward_motor'] = function(block) {
+  var motor = Blockly.Python.variableDB_.getName(block.getFieldValue('MOTOR'), Blockly.Variables.NAME_TYPE);
+  var duration = Blockly.Python.valueToCode(block, 'DURATION', Blockly.Python.ORDER_ATOMIC);
+  var freq = Blockly.Python.valueToCode(block, 'FREQ', Blockly.Python.ORDER_ATOMIC);
+  var dc = Blockly.Python.valueToCode(block, 'DC', Blockly.Python.ORDER_ATOMIC);
+  var code = motor + '.backward(' + duration + ', ' + freq + ', ' + dc + ')\n';
   return code;
 };
